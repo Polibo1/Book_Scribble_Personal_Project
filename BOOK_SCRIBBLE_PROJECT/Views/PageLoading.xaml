@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="BOOK_SCRIBBLE_PROJECT.Views.PageLoading"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BOOK_SCRIBBLE_PROJECT.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="875" d:DesignWidth="500">
+    <Grid Background="#FFFFFF">
+        <Image Source="/Assets/SCRIBBLE_LOGO.png" 
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Width="300" 
+               Stretch="Uniform"
+               RenderOptions.BitmapScalingMode="HighQuality"/>
+    </Grid>
+</UserControl>
