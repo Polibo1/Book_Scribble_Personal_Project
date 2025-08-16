@@ -23,47 +23,6 @@ using System.Windows.Threading;
 
 namespace BOOK_SCRIBBLE_PROJECT.Views
 {
-    /// <summary>
-    /// PageLoading.xaml에 대한 상호 작용 논리
-    /// </summary>
-    //public partial class PageLoading : Page
-    //{
-    //    //_cts : 취소 토큰 생성기, 기다렸던 작업을 취소할 때 사용
-    //    private readonly CancellationTokenSource _cts = new(); // CancellationTokenSource는 비동기 작업을 취소할 때 사용
-
-    //    public PageLoading()
-    //    {
-    //        InitializeComponent(); // XAML에 적어둔 UI를 실제 C# 객체로 만들어주는 호출
-    //    }
-
-    //    // 페이지가 로드될 때 호출되는 이벤트 핸들러
-    //    private async void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
-    //    {
-    //        try
-    //        {
-    //            await Task.Delay(2000, _cts.Token); // 2초 동안 대기합니다. 2초동안 로딩 페이지 보여줌
-
-    //            // 다음 페이지(MainCalendarPage)로 이동
-    //            // NavigationService는 Frame 안의 Page에서 사용할 수 있음
-    //            //NavigationService?.Navigate(new PageCalender()); // 주석 처리된 이유: MainCalendarPage가 정의되지 않았거나, 다른 페이지로 이동할 수 있습니다.
-    //            //NavigationService?.Navigate(new MainL());
-    //        }
-    //        catch (TaskCanceledException)
-    //        {
-    //            // 페이지가 닫히거나 다른 곳으로 이동하면 타이머를 취소합니다.
-    //        }
-    //    }
-
-    //    // 페이지가 언로드될 때 호출되는 이벤트 핸들러
-    //    private void Page_Unloaded(object sender, System.Windows.RoutedEventArgs e)
-    //    {
-    //        // 페이지가 메모리에서 내려갈 때 타이머를 취소하여 리소스를 정리합니다.
-    //        _cts.Cancel();
-    //    }
-    //}
-
-
-
     public partial class PageLoading : Page
     {
         private DispatcherTimer timer;

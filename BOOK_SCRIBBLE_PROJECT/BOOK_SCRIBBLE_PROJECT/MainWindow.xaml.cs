@@ -31,6 +31,5 @@ namespace BOOK_SCRIBBLE_PROJECT
         {
             MainFrame.Content = new MainLayoutView();
         }
-
     }
 }

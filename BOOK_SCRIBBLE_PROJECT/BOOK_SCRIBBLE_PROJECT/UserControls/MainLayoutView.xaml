@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:usercontrols="clr-namespace:BOOK_SCRIBBLE_PROJECT.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="875" d:DesignWidth="500"
              FontFamily="Noto Sans KR">
@@ -70,9 +71,10 @@
                         </Style.Triggers>
                     </Style>
                 </StackPanel.Resources>
-                <ToggleButton Content="메인달력" Style="{StaticResource TabButtonStyle}" IsChecked="True"/>
-                <ToggleButton Content="도서타워" Style="{StaticResource TabButtonStyle}"/>
-                <ToggleButton Content="도서목록" Style="{StaticResource TabButtonStyle}"/>
+
+                <ToggleButton x:Name="BtnList" Content="도서목록" Style="{StaticResource TabButtonStyle}" IsChecked="True"/>
+                <ToggleButton x:Name="BtnTower" Content="도서타워" Style="{StaticResource TabButtonStyle}" Checked="BtnTower_Checked"/>
+
             </StackPanel>
 
             <Border Grid.Column="0" Margin="10,0,40,20" CornerRadius="10" Background="#EEFACF" BorderBrush="#000" BorderThickness="1" 
@@ -88,6 +90,12 @@
                 <Border.LayoutTransform>
                     <TranslateTransform X="-5" Y="-5"/>
                 </Border.LayoutTransform>
+
+                <!-- Host for swappable views (BookShelfBackgroundView / BookTowerView) -->
+                <Border.Child>
+                    <ContentControl x:Name="ScrollContentHost"/>
+                </Border.Child>
+
             </Border>
         </Grid>
     </Grid>
