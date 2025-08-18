@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:BOOK_SCRIBBLE_PROJECT.Views"
         xmlns:viewmodels="clr-namespace:BOOK_SCRIBBLE_PROJECT.ViewModels"
+        xmlns:converters="clr-namespace:BOOK_SCRIBBLE_PROJECT.Converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="875" Width="500"
         FontFamily="Noto Sans KR"
@@ -18,6 +19,11 @@
         <DataTemplate DataType="{x:Type viewmodels:BookShelfViewModel}">
             <views:BookShelfBackgroundView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:BookDetailViewModel}">
+            <views:BookDetailView/>
+        </DataTemplate>
+        <converters:TypeToVisibilityConverter x:Key="TypeToVisibilityConverter" />
+        <converters:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter" />
     </Window.Resources>
 
     <Grid>
@@ -46,48 +52,8 @@
                 </Border>
 
                 <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right" Margin="-50,60,10,10" Panel.ZIndex="2">
-                    <StackPanel.Resources>
-                        <Style x:Key="TabButtonStyle" TargetType="ToggleButton">
-                            <Setter Property="Width" Value="40"/>
-                            <Setter Property="Height" Value="100"/>
-                            <Setter Property="Margin" Value="0,0,0,30"/>
-                            <Setter Property="BorderThickness" Value="1"/>
-                            <Setter Property="Background" Value="#FFFFFF"/>
-                            <Setter Property="Foreground" Value="Black"/>
-                            <Setter Property="FontSize" Value="14"/>
-                            <Setter Property="FontWeight" Value="Bold"/>
-                            <Setter Property="BorderBrush" Value="#C0D5A3"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ToggleButton">
-                                        <Border Background="{TemplateBinding Background}"
-                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                BorderThickness="{TemplateBinding BorderThickness}"
-                                                CornerRadius="0,5,5,0">
-                                            <TextBlock Text="{TemplateBinding Content}"
-                                                       VerticalAlignment="Center"
-                                                       HorizontalAlignment="Center"
-                                                       Foreground="{TemplateBinding Foreground}">
-                                                <TextBlock.LayoutTransform>
-                                                    <RotateTransform Angle="90"/>
-                                                </TextBlock.LayoutTransform>
-                                            </TextBlock>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="Background" Value="#009800"/>
-                                    <Setter Property="Foreground" Value="White"/>
-                                    <Setter Property="BorderBrush" Value="Transparent"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </StackPanel.Resources>
-
-                    <ToggleButton Content="도서목록" Style="{StaticResource TabButtonStyle}" IsChecked="True" Command="{Binding NavigateToBookShelfCommand}"/>
-                    <ToggleButton Content="도서타워" Style="{StaticResource TabButtonStyle}" Command="{Binding NavigateToBookTowerCommand}"/>
+                    <ToggleButton Content="도서목록" Style="{StaticResource TabButtonStyle}" IsChecked="{Binding IsBookShelfSelected, Mode=TwoWay}" Command="{Binding NavigateToBookShelfCommand}"/>
+                    <ToggleButton Content="도서타워" Style="{StaticResource TabButtonStyle}" IsChecked="{Binding IsBookTowerSelected, Mode=TwoWay}" Command="{Binding NavigateToBookTowerCommand}"/>
                 </StackPanel>
 
                 <Border Grid.Column="0" Margin="10,0,40,20" CornerRadius="10" Background="#EEFACF" BorderBrush="#000" BorderThickness="1"
@@ -106,8 +72,26 @@
                 </Border>
 
                 <Border Grid.Column="0" CornerRadius="10" Background="Transparent" Margin="20,10,32,10" Panel.ZIndex="4">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,18,20">
-                        <ContentControl Content="{Binding CurrentViewModel}" Width="430" Height="747" />
+                    <ScrollViewer VerticalScrollBarVisibility="Disabled" Margin="0,0,18,20">
+                        <Grid>
+                            <!-- 배경 프레임: 북목록(BookShelf)일 때만 보이도록 숨김/표시 -->
+                            <Border BorderBrush="#000" BorderThickness="1">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CurrentViewModel, Converter={StaticResource TypeToVisibilityConverter}}" Value="Hidden">
+                                                <Setter Property="Visibility" Value="Hidden" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+
+                            <!-- 실제 화면 컨텐츠: ✅ 항상 보이게 별도로 둔다 -->
+                            <ContentControl Content="{Binding CurrentViewModel}"
+                             Width="430" Height="747" HorizontalAlignment="Center" />
+                        </Grid>
                     </ScrollViewer>
                 </Border>
             </Grid>

@@ -7,7 +7,7 @@
              xmlns:viewmodels="clr-namespace:BOOK_SCRIBBLE_PROJECT.ViewModels"
              mc:Ignorable="d" 
              Background="#FFF2CC" 
-             d:DesignHeight="800" d:DesignWidth="450"
+             d:DesignHeight="747" d:DesignWidth="430"
              d:DataContext="{d:DesignInstance viewmodels:BookShelfViewModel}">
 
     <ItemsControl ItemsSource="{Binding Shelves}">

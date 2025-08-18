@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="BOOK_SCRIBBLE_PROJECT.Views.BookDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewmodels="clr-namespace:BOOK_SCRIBBLE_PROJECT.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="747" d:DesignWidth="430"
+             FontFamily="Noto Sans KR"
+             d:DataContext="{d:DesignInstance viewmodels:BookDetailViewModel}">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- 제목 + 라벨/값 블록 (Grid.Row="0") -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <!-- 제목 -->
+            <TextBlock Text="{Binding Title}" FontSize="24" FontWeight="Bold" Margin="0,0,0,12"/>
+
+            <!-- 저자 -->
+            <TextBlock Text="저자" FontSize="18" FontWeight="Bold" Foreground="#2F3A22" />
+            <TextBlock Text="{Binding Author}" FontSize="15" Margin="0,2,0,12"/>
+
+            <!-- 완독일 -->
+            <TextBlock Text="완독일" FontSize="18" FontWeight="Bold" Foreground="#2F3A22" />
+            <!-- FinishDate가 DateTime이면 StringFormat 사용, 문자열이면 아래 줄의 StringFormat을 제거 -->
+            <TextBlock Text="{Binding FinishDate, StringFormat={}{0:yyyy년 MM월 dd일}}" FontSize="15" Margin="0,2,0,12"/>
+
+            <!-- 총 페이지 -->
+            <TextBlock Text="총 페이지" FontSize="18" FontWeight="Bold" Foreground="#2F3A22" />
+            <TextBlock Text="{Binding TotalPage, StringFormat={}{0:N0}}" FontSize="15" Margin="0,2,0,0"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock Text="독후감" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+                <ItemsControl ItemsSource="{Binding Reviews}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Content}" FontSize="15" TextWrapping="Wrap" Margin="0,0,0,10"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <TextBlock Text="{Binding ReviewContent}" TextWrapping="Wrap" Visibility="{Binding Reviews.Count, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
+
+                <TextBlock Text="마음에 드는 구절" FontSize="18" FontWeight="Bold" Margin="0,20,0,10"/>
+                <ItemsControl ItemsSource="{Binding Quotes}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <!-- (p. {PageNum}) {Content} -->
+                            <TextBlock TextWrapping="Wrap" Margin="0,0,0,10">
+                                <Run Text="(p. " FontSize="15"/>
+                                <Run Text="{Binding PageNum}" FontWeight="SemiBold" FontSize="15"/>
+                                <Run Text=") " FontSize="15"/>
+                                <Run Text="{Binding Content}" FontSize="15"/>     
+                            </TextBlock>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <TextBlock Text="{Binding QuoteContent}" TextWrapping="Wrap" Visibility="{Binding Quotes.Count, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

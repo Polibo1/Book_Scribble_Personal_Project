@@ -15,10 +15,10 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-        <ItemsControl ItemsSource="{Binding Books}" Grid.Row="0">
+        <ItemsControl ItemsSource="{Binding Books}" Grid.Row="0" Margin="60,0,60,0">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
@@ -29,6 +29,6 @@
         </ItemsControl>
 
         <Border Grid.Row="1" Background="#5F4B3C" CornerRadius="0,0,10,10"
-                Margin="10,0,10,0" BorderBrush="#000" BorderThickness="1"/>
+                Margin="10,0,10,0" BorderBrush="#000" BorderThickness="1" Width="380"/>
     </Grid>
 </UserControl>

@@ -2,7 +2,9 @@
 using System.Linq;
 using BOOK_SCRIBBLE_PROJECT.Models;
 using BOOK_SCRIBBLE_PROJECT.Data;
+using BOOK_SCRIBBLE_PROJECT.ViewModels; // MainViewModel을 참조하기 위해 추가
 
+// 이 뷰모델은 책장을 구성하는 역할
 namespace BOOK_SCRIBBLE_PROJECT.ViewModels
 {
     public class BookShelfViewModel
@@ -20,42 +22,17 @@ namespace BOOK_SCRIBBLE_PROJECT.ViewModels
             var dbManager = new DatabaseManager();
             var books = dbManager.GetAllBooks(); // DB에서 책 목록을 가져옵니다.
 
-            //if (books == null || !books.Any())
-            //{
-            //    // DB에 책이 없을 경우 임시 데이터를 생성
-            //    books = new List<BOOK_SCRIBBLE_PROJECT.Models.Book>
-            //    {
-            //        new BOOK_SCRIBBLE_PROJECT.Models.Book
-            //        {
-            //            TITLE = "임시 책 1",
-            //            AUTHOR = "임시 저자 1",
-            //            COVER_PATH = "C:\\Boeun\\LMS6_BOOK_SCRIBBLE\\BOOK_SCRIBBLE_2025_0816\\COVER\\dream.jpg" // 실제 이미지 경로로 수정하세요
-            //        },
-            //        new BOOK_SCRIBBLE_PROJECT.Models.Book
-            //        {
-            //            TITLE = "임시 책 2",
-            //            AUTHOR = "임시 저자 2",
-            //            COVER_PATH = "C:\\Boeun\\LMS6_BOOK_SCRIBBLE\\BOOK_SCRIBBLE_2025_0816\\COVER\\thousand_year.jpg"
-            //        },
-            //        new BOOK_SCRIBBLE_PROJECT.Models.Book
-            //        {
-            //            TITLE = "임시 책 3",
-            //            AUTHOR = "임시 저자 3",
-            //            COVER_PATH = "C:\\Boeun\\LMS6_BOOK_SCRIBBLE\\BOOK_SCRIBBLE_2025_0816\\COVER\\aurora.jpg"
-            //        }
-            //    };
-            //}
-
-
-
 
             if (books != null && books.Any())
             {
                 var bookViewModels = books.Select(b => new BookViewModel
                 {
-                    Title = b.TITLE,
-                    Author = b.AUTHOR,
-                    CoverImage = b.COVER_PATH // DB에서 가져온 경로를 사용합니다.
+                    Title = b.TITLE, // DB에서 가져온 제목 사용
+                    Author = b.AUTHOR, // DB에서 가져온 저자 사용
+                    CoverImage = b.COVER_PATH, // DB에서 가져온 경로 사용
+                    // 이렇게 해야 나중에 클릭했을 때, 커맨드 파라미터로 * *정확한 Book(모델) * *을 넘길 수 있어.
+                    // MainViewModel.NavigateToBookDetail(Book book)은 Book을 받는 시그니처이니까 이게 핵심!
+                    Original = b // 클릭 시 상세로 보낼 원본 모델
                 }).ToList();
 
                 int booksPerShelf = 3;

@@ -7,16 +7,24 @@
              xmlns:converters="clr-namespace:BOOK_SCRIBBLE_PROJECT.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="130" d:DesignWidth="90"
-             d:DataContext="{d:DesignInstance viewmodels:BookViewModel}">
+             d:DataContext="{d:DesignInstance viewmodels:BookViewModel}"
+             Margin="10,0,10,0">
 
     <UserControl.Resources>
         <converters:ImagePathToBitmapConverter x:Key="PathToBitmapConverter"/>
     </UserControl.Resources>
 
-    <Image Source="{Binding CoverImage, Converter={StaticResource PathToBitmapConverter}}"
-           Width="80"
-           Height="100"
-           Stretch="UniformToFill"
-           RenderOptions.BitmapScalingMode="HighQuality"
-           Margin="5"/>
+    <Button
+        Background="Transparent"
+        BorderThickness="0"
+        Padding="0"
+        Command="{Binding DataContext.NavigateToBookDetailCommand,
+                          RelativeSource={RelativeSource AncestorType=Window}}"
+        CommandParameter="{Binding Original}">
+        <Image Source="{Binding CoverImage, Converter={StaticResource PathToBitmapConverter}}"
+               Height="120"
+               Stretch="UniformToFill"
+               RenderOptions.BitmapScalingMode="HighQuality"
+               Margin="5,15,5,0"/>
+    </Button>
 </UserControl>
