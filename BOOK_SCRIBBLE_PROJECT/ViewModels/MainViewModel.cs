@@ -74,5 +74,12 @@ namespace BOOK_SCRIBBLE_PROJECT.ViewModels
             CurrentViewModel = new BookDetailViewModel(book, reviews, quotes);
             Debug.WriteLine("Navigated to BookDetailViewModel.");
         }
+
+        [RelayCommand]
+        public void OpenCreateBookView()
+        {
+            CurrentViewModel = new CreateBookViewModel();
+            Console.WriteLine("Navigated to CreateBookViewModel.");
+        }
     }
 }

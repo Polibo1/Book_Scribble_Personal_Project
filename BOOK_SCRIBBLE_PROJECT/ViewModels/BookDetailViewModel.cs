@@ -43,7 +43,7 @@ namespace BOOK_SCRIBBLE_PROJECT.ViewModels
             Author = book.AUTHOR;
             TotalPage = book.TOTAL_PAGE;
             FinishDate = book.FINISH_DATE;
-            //Debug.WriteLine($"BookDetailViewModel initialized with Title: {Title}, Author: {Author}, TotalPage: {TotalPage}, FinishDate: {FinishDate}");
+            Debug.WriteLine($"BookDetailViewModel initialized with Title: {Title}, Author: {Author}, TotalPage: {TotalPage}, FinishDate: {FinishDate}");
 
             // reviews 컬렉션이 비어있는 경우, 기본 메시지 표시
             if (reviews == null || reviews.Count == 0)
@@ -54,8 +54,7 @@ namespace BOOK_SCRIBBLE_PROJECT.ViewModels
             else
             {
                 Reviews = reviews;
-                Debug.WriteLine($"Review Count: {reviews.Count}");
-                Debug.WriteLine($"First Review Content: {reviews.First().Content}");
+                Console.WriteLine($"리뷰 내용: {reviews.First().Content}");
                 ReviewContent = reviews.First().Content; // 첫 번째 독후감 내용을 표시 (여러 개일 경우)
             }
 

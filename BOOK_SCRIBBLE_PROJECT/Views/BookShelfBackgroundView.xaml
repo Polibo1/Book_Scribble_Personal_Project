@@ -10,16 +10,39 @@
              d:DesignHeight="747" d:DesignWidth="430"
              d:DataContext="{d:DesignInstance viewmodels:BookShelfViewModel}">
 
-    <ItemsControl ItemsSource="{Binding Shelves}">
-        <ItemsControl.ItemContainerStyle>
-            <Style TargetType="ContentPresenter">
-                <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            </Style>
-        </ItemsControl.ItemContainerStyle>
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <views:ShelfView/>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-    </ItemsControl>
+    <!-- 상단에 + 버튼, 아래에 기존 선반 목록이 배치되도록 그리드 2행 구성 -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- + 버튼 자리 -->
+            <RowDefinition Height="*"/>
+            <!-- 선반/책 목록 -->
+        </Grid.RowDefinitions>
+
+        <!-- 좌상단 + 버튼 (App.xaml의 RoundPlusButtonStyle 사용) -->
+        <Button
+            Grid.Row="0"
+            Content="+"
+            FontSize="28"
+            Style="{StaticResource RoundPlusButtonStyle}"
+            HorizontalAlignment="Left"
+            Margin="382,8,0,8"
+            ToolTip="새 책 등록"
+            Command="{Binding DataContext.OpenCreateBookViewCommand,
+                              RelativeSource={RelativeSource AncestorType=Window}}"/>
+
+        <!-- 기존 선반 목록: Shelves 바인딩 + ShelfView 템플릿 -->
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Shelves}">
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <views:ShelfView/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
 </UserControl>

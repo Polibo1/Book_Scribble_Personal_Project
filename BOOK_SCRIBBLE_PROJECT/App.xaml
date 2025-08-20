@@ -52,9 +52,54 @@
             </Style.Triggers>
         </Style>
 
+        
+        <!-- 전역 브러시(원형 + 버튼 색 구성) -->
+        <SolidColorBrush x:Key="PlusBtnBackgroundBrush" Color="#CDE7B0"/> <!-- 기본 -->
+        <SolidColorBrush x:Key="PlusBtnBackgroundHoverBrush" Color="#BFE09F"/>  <!-- Hover -->
+        <SolidColorBrush x:Key="PlusBtnBackgroundPressedBrush" Color="#A9D480"/> <!-- Pressed -->    
+        <!-- 원형 + 버튼 전역 스타일 -->
+        <Style x:Key="RoundPlusButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Background" Value="{StaticResource PlusBtnBackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="20"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource PlusBtnBackgroundHoverBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="{StaticResource PlusBtnBackgroundPressedBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
 
+
+        <!-- 전역 컨버터 -->
+        <converters:ImagePathToBitmapConverter x:Key="PathToBitmapConverter"/>
         <converters:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter"/>
+        
+
 
     </Application.Resources>
 </Application>

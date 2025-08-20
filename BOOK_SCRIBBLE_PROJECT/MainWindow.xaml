@@ -22,6 +22,9 @@
         <DataTemplate DataType="{x:Type viewmodels:BookDetailViewModel}">
             <views:BookDetailView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:CreateBookViewModel}">
+            <views:CreateBookView/>
+        </DataTemplate>
         <converters:TypeToVisibilityConverter x:Key="TypeToVisibilityConverter" />
         <converters:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter" />
     </Window.Resources>

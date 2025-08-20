@@ -1,0 +1,155 @@
+﻿<!-- FILE: Views/CreateBookView.xaml -->
+<UserControl x:Class="BOOK_SCRIBBLE_PROJECT.Views.CreateBookView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d"
+             d:DesignHeight="747" d:DesignWidth="430">
+
+    <!-- 이 화면 안에서만 스크롤 -->
+    <ScrollViewer VerticalScrollBarVisibility="Hidden"
+                  HorizontalScrollBarVisibility="Disabled"
+                  CanContentScroll="True">
+        <Grid Margin="12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- 제목 -->
+                <RowDefinition Height="Auto"/>
+                <!-- 저자/총페이지 + 표지 (왼/오) -->
+                <RowDefinition Height="Auto"/>
+                <!-- (RowSpan 보정용, 비워둠) -->
+                <RowDefinition Height="Auto"/>
+                <!-- 독후감 라벨 -->
+                <RowDefinition Height="220"/>
+                <!-- 독후감 입력 -->
+                <RowDefinition Height="Auto"/>
+                <!-- 구절 라벨 + 추가/삭제 -->
+                <RowDefinition Height="Auto"/>
+                <!-- 구절 페이지 입력 -->
+                <RowDefinition Height="Auto"/>
+                <!-- 구절 내용 입력 -->
+                <RowDefinition Height="*"/>
+                <!-- 구절 리스트 -->
+                <RowDefinition Height="Auto"/>
+                <!-- 저장/취소 -->
+            </Grid.RowDefinitions>
+
+            <!-- 제목 -->
+            <StackPanel Grid.Row="0" Margin="0,0,0,12">
+                <TextBlock Text="제목" FontWeight="SemiBold" FontSize="16"/>
+                <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+                         Height="28" Margin="0,6,0,0"/>
+            </StackPanel>
+
+            <!-- 저자/총페이지 + 오른쪽 표지 미리보기 묶음 -->
+            <Grid Grid.Row="1" Grid.RowSpan="2" Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="160"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 왼쪽: 저자 + 총 페이지 -->
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="저자" FontWeight="SemiBold" FontSize="16"/>
+                    <TextBox Text="{Binding Author, UpdateSourceTrigger=PropertyChanged}"
+                             Height="28" Margin="0,6,0,12"/>
+
+                    <TextBlock Text="총 페이지" FontWeight="SemiBold" FontSize="16"/>
+                    <TextBox Text="{Binding TotalPage, UpdateSourceTrigger=PropertyChanged}"
+                             Height="28" Margin="0,6,0,0"/>
+                    <!-- 왼쪽: 저자 + 총 페이지 (기존 그대로) -->
+                    <TextBlock Text="완독일" FontWeight="SemiBold" FontSize="16" Margin="0,12,0,6"/>
+
+                    <!-- ✅ 캘린더가 뜨는 DatePicker -->
+                    <DatePicker
+                        SelectedDate="{Binding FinishDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedDateFormat="Short"       
+                        Language="ko-KR"
+                        DisplayDateEnd="{x:Static sys:DateTime.Today}"
+                        FirstDayOfWeek="Monday"
+                        IsTodayHighlighted="True"
+                        Margin="0,0,0,12"/>
+                </StackPanel>
+
+                <!-- 오른쪽: 표지 미리보기 + 찾아보기/지우기 -->
+                <StackPanel Grid.Column="1" Margin="16,0,0,0" HorizontalAlignment="Left">
+                    <Border Width="120" Height="160" BorderBrush="Black" BorderThickness="1" Background="White">
+                        <Image Source="{Binding CoverImagePath, Converter={StaticResource PathToBitmapConverter}}"
+                               Stretch="UniformToFill"/>
+                    </Border>
+                    <TextBlock Text="책 표지" HorizontalAlignment="Center" Margin="0,6,0,4"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="찾아보기" Margin="0,0,6,0" Padding="10,4"
+                                Command="{Binding BrowseCoverCommand}"/>
+                        <Button Content="지우기" Padding="10,4"
+                                Command="{Binding ClearCoverCommand}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <!-- 독후감 -->
+            <TextBlock Grid.Row="3" Text="독후감" FontWeight="SemiBold" FontSize="16" Margin="0,0,0,6"/>
+            <TextBox   Grid.Row="4"
+                       Text="{Binding ReviewContent, UpdateSourceTrigger=PropertyChanged}"
+                       AcceptsReturn="True" TextWrapping="Wrap"
+                       VerticalScrollBarVisibility="Auto"
+                       Padding="8" BorderBrush="#000" BorderThickness="1"/>
+
+            <!-- 마음에 드는 구절: 라벨 + 버튼 -->
+            <Grid Grid.Row="5" Margin="0,16,0,6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="마음에 드는 구절" FontWeight="SemiBold" FontSize="16" VerticalAlignment="Center"/>
+                <Button Grid.Column="1" Content="추가" Margin="8,0,6,0" Padding="10,4"
+                        Command="{Binding AddQuoteCommand}"/>
+                <Button Grid.Column="2" Content="삭제" Padding="10,4"
+                        Command="{Binding RemoveSelectedQuoteCommand}"/>
+            </Grid>
+
+            <!-- 구절 입력: 페이지 -->
+            <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="0,0,0,6">
+                <TextBlock Text="페이지" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                <TextBox Text="{Binding NewQuotePageText, UpdateSourceTrigger=PropertyChanged}"
+                         Width="80" Height="28"/>
+            </StackPanel>
+
+            <!-- 구절 입력: 내용 -->
+            <TextBox Grid.Row="7"
+                     Text="{Binding NewQuoteContent, UpdateSourceTrigger=PropertyChanged}"
+                     AcceptsReturn="True" TextWrapping="Wrap"
+                     Height="60" Padding="6"/>
+
+            <!-- 구절 리스트 (선택 가능해야 삭제됨) -->
+            <ListBox Grid.Row="8"
+                     ItemsSource="{Binding Quotes}"
+                     SelectedItem="{Binding SelectedQuote}"
+                     Margin="0,8,0,0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock TextWrapping="Wrap" Margin="0,0,0,8">
+                            <Run Text="(p. "/>
+                            <Run Text="{Binding PageNum}" FontWeight="SemiBold"/>
+                            <Run Text=") "/>
+                            <Run Text="{Binding Content}"/>
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- 저장/취소 -->
+            <StackPanel Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+                <Button Content="취소" Margin="0,0,8,0" Padding="12,6"
+                        Command="{Binding CancelCommand}"/>
+                <Button Content="저장" Padding="12,6"
+                        Background="#CDE7B0" BorderBrush="Black"
+                        Command="{Binding SaveCommand}"/>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</UserControl>
